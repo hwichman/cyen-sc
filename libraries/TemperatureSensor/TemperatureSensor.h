@@ -1,14 +1,21 @@
+#ifndef TemperatureSensor_h
+#define TemperatureSensor_h
+
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include "Arduino.h"
 
 class TemperatureSensor {
 public:
-TemperatureSensor();
+TemperatureSensor(int pin);
+DallasTemperature sensors;
 DeviceAddress thermometer;
-DallasTemperature sensors(&OneWire);
-OneWire oneWire;
+float getTemperature(DeviceAddress);
 
 private:
-update();
+void setup();
+float getTemperature(DeviceAddress);
 
 };
+
+#endif

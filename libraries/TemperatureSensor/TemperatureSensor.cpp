@@ -13,12 +13,12 @@ void TemperatureSensor::setup(){
 	this.sensors.setResolution(thermometer, 10);
 }
 
-float TemperatureSensor::getTemperature(DeviceAddress deviceAddress){
+float TemperatureSensor::getTemperature(){
 	this.sensors.requestTemperatures();
 	return this.sensors.getTempC(deviceAddress);
 	if (tempC == -127.00) {
 		return 0.0;
 	} else {
-		return this.sensors.getTempC(deviceAddress);
+		return this.sensors.getTempC(this.thermometer);
 	}
 }

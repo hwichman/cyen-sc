@@ -1,3 +1,5 @@
+#include <TemperatureSensor.h>
+
 char junk;
 String inputString="";
 void setup()                    // run once, when the sketch starts
@@ -18,11 +20,8 @@ void loop()
     Serial.println(inputString);
     while (Serial.available() > 0)  
     { junk = Serial.read() ; }      // clear the serial buffer
-    if(inputString == "a"){         //in case of 'a' turn the LED on
-      digitalWrite(13, HIGH);  
-    }else if(inputString == "b"){   //incase of 'b' turn the LED off
-      digitalWrite(13, LOW);
-    }
+    float TempC = TemperatureSensor.getTemperature();
+    Serial.println(String(TempC));
     inputString = "";
   }
 }

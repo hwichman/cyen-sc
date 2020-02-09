@@ -10,7 +10,7 @@ public:
 TemperatureSensor(int pin);
 DallasTemperature sensors;
 DeviceAddress thermometer;
-float getTemperature(DeviceAddress);
+float getTemperature();
 
 private:
 void setup();

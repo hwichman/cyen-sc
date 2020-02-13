@@ -8,13 +8,12 @@
 class TemperatureSensor {
 public:
 TemperatureSensor(int pin);
-DallasTemperature sensors;
-DeviceAddress thermometer;
 float getTemperature();
 
 private:
+DallasTemperature sensors;
+DeviceAddress thermometer;
 void setup();
-float getTemperature(DeviceAddress);
 
 };
 

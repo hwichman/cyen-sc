@@ -23,11 +23,11 @@ unsigned int flowMilliLitres;
 unsigned long totalMilliLitres;
 
 unsigned long oldTime;
-
+// The ID of the thermometer
 DeviceAddress thermometer = { 0x28, 0x5A, 0x22, 0x5E, 0x1A, 0x19, 0x01, 0x69 };
-void setup()                    // run once, when the sketch starts
+void setup()              // run once, when the sketch starts
 {
- Serial.begin(9600);            // set the baud rate to 9600, same should be of your Serial Monitor
+ Serial.begin(9600);     // set the baud rate to 9600, same should be of your Serial Monitor
  pinMode(13, OUTPUT);
  Serial.println("you are connected");
  sensors.begin();

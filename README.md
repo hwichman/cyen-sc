@@ -1,7 +1,7 @@
 # SWANS
 
 This is a READ ME file for our Senior Capstone project at LA Tech - Spring 2020. 
-The project consists of a Secure Wireless Network System using the Adafruit Feather, a Python-based App, multiple sensors and ECC Encryption. 
+The project consists of a Secure Wireless Network System using a Python-based App, multiple sensors and ECC Encryption. 
 
 The project consists of a cost effective alternative to the existing monitoring systems in chemical plants and/or oil refineries in a secured manner. The purpose of the project is to monitor some sort of chemmical in a reservoir, gather data, parse and encrypt the data and send it to the App to be monitored. 
 
@@ -17,4 +17,4 @@ After having successfully received the data on the App, the user will be able to
 
 
 Resources:
-  - Adafruit feather <https://www.adafruit.com/product/3178>
+  

@@ -32,12 +32,12 @@ class LoginFrame(Frame):
         username = self.entry_username.get()
         password = self.entry_password.get()
         if username == "" and password == "":
+            self.pack_forget()
             root = tk.Tk()
             main = MainView(root)
             main.pack(side="top", fill="both", expand=True)
             root.wm_geometry("400x400")
-            #root.mainloop()
-                     
+            #root.mainloop()       
         else:
             tm.showerror("Login error", "Incorrect Credintials")
 
@@ -50,6 +50,7 @@ class Page(tk.Frame):
     def show(self):
         self.lift()
 
+
 class Page1(Page):
     def __init__(self, *args, **kwargs):
         test = 0
@@ -59,10 +60,10 @@ class Page1(Page):
         
         lbl1 = tk.Label(self, text='Low Parameter')
         lbl2 = tk.Label(self, text='High Parameter')
-        t1 = Entry()
-        t2 = Entry()
-        t1.pack(side = RIGHT)
-        t2.pack(side = RIGHT)
+        t1 = Entry(self)
+        t2 = Entry(self)
+        t1.place(x=100, y=150)
+        t2.pack(side = "left")
         btn1 = Button(self, text='Store')
         lbl1.place(x=100, y=50)
         #t1.place(x=200, y=50)
@@ -70,7 +71,6 @@ class Page1(Page):
         #t2.place(x=200, y=100)
         b1 = Button(self, text='Store', command=self.store)
         b1.place(x=200, y=150)
-        
         
         label.pack(side = "bottom")
         labe2.pack(side = "top")

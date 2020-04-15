@@ -32,7 +32,7 @@ class LoginFrame(Frame):
         username = self.entry_username.get()
         password = self.entry_password.get()
         if username == "" and password == "":
-            self.pack_forget()
+            self.master.destroy()
             root = tk.Tk()
             main = MainView(root)
             main.pack(side="top", fill="both", expand=True)
@@ -60,35 +60,46 @@ class Page1(Page):
         
         lbl1 = tk.Label(self, text='Low Parameter')
         lbl2 = tk.Label(self, text='High Parameter')
-        t1 = Entry(self)
-        t2 = Entry(self)
-        t1.place(x=100, y=150)
-        t2.pack(side = "left")
+        self.t1 = Entry(self)
+        self.t2 = Entry(self)
+        self.t1.place(x=100, y=50)
+        self.t2.place(x=100, y=75)
         btn1 = Button(self, text='Store')
-        lbl1.place(x=100, y=50)
-        #t1.place(x=200, y=50)
-        lbl2.place(x=100, y=100)
-        #t2.place(x=200, y=100)
+        lbl1.place(x=0, y=50)
+        lbl2.place(x=0, y=75)
+
+        labe3 = tk.Label(self, bg = "White", text = "PH")
+        lbl1 = tk.Label(self, text='Low Parameter')
+        lbl2 = tk.Label(self, text='High Parameter')
+        self.t1 = Entry(self)
+        self.t2 = Entry(self)
+        self.t1.place(x=100, y=125)
+        self.t2.place(x=100, y=150)
+        btn1 = Button(self, text='Store')
+        lbl1.place(x=0, y=125)
+        lbl2.place(x=0, y=150)
+        
         b1 = Button(self, text='Store', command=self.store)
-        b1.place(x=200, y=150)
+        b1.place(x=200, y=300)
         
         label.pack(side = "bottom")
-        labe2.pack(side = "top")
+        labe2.place(x=0, y=25)
+        labe3.place(x=0, y=100)
         
     def store(self):
-        num1=int(t1.get())
-        num2=int(t2.get())
+        num1=int(self.t1.get())
+        num2=int(self.t2.get())
         print(num1)
         print(num2)
-        #window.destroy()
 
 class Page2(Page):
    def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, bg = "yellow", text = "0")
-       labe2 = tk.Label(self, bg = "White", text = "PH")
-       label.pack(side="bottom")
-       labe2.pack(side = "top")
+        Page.__init__(self, *args, **kwargs)
+        label = tk.Label(self, bg = "yellow", text = "0")
+        labe2 = tk.Label(self, bg = "White", text = "PH")
+        label.pack(side = "bottom")
+        labe2.pack(side = "top")
+
 
 class Page3(Page):
    def __init__(self, *args, **kwargs):

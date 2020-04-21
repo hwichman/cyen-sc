@@ -62,47 +62,26 @@ class Page1(Page):
         lbl2 = tk.Label(self, text='High Parameter')
         self.t1 = Entry(self)
         self.t2 = Entry(self)
-<<<<<<< HEAD
         self.t2.pack(side = "left")
         btn1 = Button(self, text='Store')
         lbl1.place(x=100, y=50)
         self.t1.place(x=200, y=50)
         lbl2.place(x=100, y=100)
         self.t2.place(x=200, y=100)
-=======
-        self.t1.place(x=100, y=50)
-        self.t2.place(x=100, y=75)
-        btn1 = Button(self, text='Store')
-        lbl1.place(x=0, y=50)
-        lbl2.place(x=0, y=75)
-
-        labe3 = tk.Label(self, bg = "White", text = "PH")
-        lbl1 = tk.Label(self, text='Low Parameter')
-        lbl2 = tk.Label(self, text='High Parameter')
-        self.t1 = Entry(self)
-        self.t2 = Entry(self)
-        self.t1.place(x=100, y=125)
-        self.t2.place(x=100, y=150)
-        btn1 = Button(self, text='Store')
-        lbl1.place(x=0, y=125)
-        lbl2.place(x=0, y=150)
-        
->>>>>>> 6d93fc2efec52b58305fe5222132c6a11e30a38a
         b1 = Button(self, text='Store', command=self.store)
-        b1.place(x=200, y=300)
+        b1.place(x=200, y=150)
         
         label.pack(side = "bottom")
-        labe2.place(x=0, y=25)
-        labe3.place(x=0, y=100)
+        labe2.pack(side = "top")
         
     def store(self):
         num1=int(self.t1.get())
         num2=int(self.t2.get())
         print(num1)
         print(num2)
+        #window.destroy()
 
 class Page2(Page):
-<<<<<<< HEAD
     def __init__(self, *args, **kwargs):
         test = 0
         Page.__init__(self, *args, **kwargs)
@@ -132,14 +111,6 @@ class Page2(Page):
         print(num2)
         #window.destroy()
 
-=======
-   def __init__(self, *args, **kwargs):
-        Page.__init__(self, *args, **kwargs)
-        label = tk.Label(self, bg = "yellow", text = "0")
-        labe2 = tk.Label(self, bg = "White", text = "PH")
-        label.pack(side = "bottom")
-        labe2.pack(side = "top")
->>>>>>> 6d93fc2efec52b58305fe5222132c6a11e30a38a
 
 
 class Page3(Page):

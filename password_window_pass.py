@@ -7,7 +7,7 @@ import tkinter as tk
 class LoginFrame(Frame):
     def __init__(self, master):
         super().__init__(master)
-
+       
         self.label_username = Label(self, text="Username")
         self.label_password = Label(self, text="Password")
 

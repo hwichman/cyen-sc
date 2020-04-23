@@ -67,12 +67,15 @@ class SensorPage(Page):
     def __init__(self, title_label):
         test = 0
         Page.__init__(self)
+        self.temperatureText = StringVar()
+        self.temperatureText.set("Temperature = Loading...")
         self.title_label = title_label
-        label = tk.Label(self, bg = "green", text = test)
+        #label = tk.Label(self, bg = "green", text = test)
         labe2 = tk.Label(self, bg = "White", text = self.title_label)
-        label.pack(side = "bottom")
+        #label.pack(side = "bottom")
         labe2.pack(side = "top")
-        
+        self.labe3 = tk.Label(self, bg = "White", textvariable = self.temperatureText)
+        self.labe3.pack(side = "bottom")
         lbl1 = tk.Label(self, text='Low Parameter')
         lbl2 = tk.Label(self, text='High Parameter')
         self.t1 = Entry(self)
@@ -99,9 +102,12 @@ class SensorPage(Page):
         self.pack_forget()
 
     def updateFlowRate(self, value):
-        print ("updating "+self.title_label+"'s Flowrate to "+str(value))
+        #print ("updating "+self.title_label+"'s Flowrate to "+str(value))
+        pass
     def updateTemp(self, value):
-        print ("updating "+self.title_label+"'s Temperature to "+str(value))
+        self.temperatureText.set("Temperature = "+str(value))
+        #print ("updating "+self.title_label+"'s Temperature to "+str(value))
+        
         
 
         
@@ -139,8 +145,8 @@ class MainView(tk.Frame):
                 self.addPage(str(info))
             elif (protocol == "UpdateTemp"):
                 client, temperature = parseData(str(info))
-                print ("client = " + str(client))
-                print ("temperature = "+ str(temperature))
+                #print ("client = " + str(client))
+                #print ("temperature = "+ str(temperature))
                 for page in self.pageList:
                     if (page.title_label == client):
                         page.updateTemp(temperature)
@@ -170,7 +176,7 @@ def acceptIncomingConnections():
         dataQueue.append("NewClient:"+str(clientAddress[0]))
         #send the current time data to the client
         print("%s:%s has connected." % clientAddress)
-        handleClient(client)
+        Thread(target=handleClient, args=(client,)).start()
 
 def getData(instruction, datadecode):
         endIndex = datadecode.find("[",datadecode.find(instruction)+3)

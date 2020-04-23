@@ -65,38 +65,61 @@ class Page(tk.Frame):
 
 class SensorPage(Page):
     def __init__(self, title_label):
-        test = 0
         Page.__init__(self)
         self.temperatureText = StringVar()
         self.temperatureText.set("Temperature = Loading...")
+        self.flowrateText = StringVar()
+        self.flowrateText.set("Flowrate = Loading...")
         self.title_label = title_label
-        #label = tk.Label(self, bg = "green", text = test)
-        labe2 = tk.Label(self, bg = "White", text = self.title_label)
-        #label.pack(side = "bottom")
-        labe2.pack(side = "top")
-        self.labe3 = tk.Label(self, bg = "White", textvariable = self.temperatureText)
-        self.labe3.pack(side = "bottom")
+        labe0 = tk.Label(self, bg = "White", text = self.title_label)
+        labe0.pack(side = "top")
+        label = tk.Label(self, bg = "green", textvariable = self.temperatureText)
+        labe8 = tk.Label(self, bg = "green", textvariable = self.flowrateText)
+        labe2 = tk.Label(self, bg = "White", text = "Temperature Sensor")
+        label.place(x=30, y=315)
+        labe2.place(x=150, y = 20)
+        labe8.place(x=200, y = 315)
+
+        #Temperature Entry
         lbl1 = tk.Label(self, text='Low Parameter')
         lbl2 = tk.Label(self, text='High Parameter')
+        lbl1.place(x=50, y=50)
+        lbl2.place(x=200, y=50)
         self.t1 = Entry(self)
         self.t2 = Entry(self)
-        self.t2.pack(side = "left")
+        self.t1.place(x=50, y=75)
+        self.t2.place(x=200, y=75)
+
+        #PH Sensor Entry
+        labe3 = tk.Label(self, bg = "White", text = "Flow Rate Sensor")
+        labe3.place(x=150, y = 105)
+        lbl3 = tk.Label(self, text='Low Parameter')
+        lbl4 = tk.Label(self, text='High Parameter')
+        lbl3.place(x=50, y=130)
+        lbl4.place(x=200, y=130)
+        self.t3 = Entry(self)
+        self.t4 = Entry(self)
+        self.t3.place(x=50, y=150)
+        self.t4.place(x=200, y=150)
+        
+        #Button Code
         btn1 = Button(self, text='Store')
-        lbl1.place(x=100, y=50)
-        self.t1.place(x=200, y=50)
-        lbl2.place(x=100, y=100)
-        self.t2.place(x=200, y=100)
         b1 = Button(self, text='Store', command=self.store)
-        b1.place(x=200, y=150)
-        b1 = Button(self, text='Delete', command=lambda: self.deletePage)
-        b1.place(x=200, y=300)
+        b1.place(x=175, y=200)
         
     def store(self):
-        num1=int(self.t1.get())
-        num2=int(self.t2.get())
-        print(num1)
-        print(num2)
-        #window.destroy()
+        num1=str(self.t1.get())
+        num2=str(self.t2.get())
+        num3=str(self.t3.get())
+        num4=str(self.t4.get())
+        labe4 = tk.Label(self, bg = "White", text = "Temp Low parameter = " + num1)
+        labe4.place(x=50, y = 250)
+        labe5 = tk.Label(self, bg = "White", text = "Temp High parameter = " + num2)
+        labe5.place(x= 200, y = 250)
+        labe6 = tk.Label(self, bg = "White", text = "Flow Rate Low parameter = " + num3)
+        labe6.place(x=40, y = 280)
+        labe7 = tk.Label(self, bg = "White", text = "Flow Rate High parameter = " + num4)
+        labe7.place(x=215, y = 280)
 
     def deletePage(self):
         self.pack_forget()

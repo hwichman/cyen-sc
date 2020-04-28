@@ -236,10 +236,12 @@ class MainView(tk.Frame):
 
         self.refresh()
 
+
         for page in self.pageList:
             page.place(in_=self.container, x=0, y=0, relwidth=1, relheight=1)
             button = Button(self.buttonframe, text=page.title_label, command=page.lift)
             button.pack(side="left")
+        self.addPage("PageName")
     def addPage(self, ip):
         newPage = SensorPage(str(ip))
         self.pageList.append(newPage)

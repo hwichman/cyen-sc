@@ -3,14 +3,14 @@
 #include <DallasTemperature.h>
 char junk;
 String inputString="";
-OneWire oneWire(3);
+OneWire oneWire(4);
 DallasTemperature sensors(&oneWire);
 
 
 byte statusLed    = 13;
 
-byte sensorInterrupt = 0;  // 0 = digital pin 2
-byte sensorPin       = 2;
+byte sensorInterrupt = 4;  // 0 = digital pin 2
+byte sensorPin       = 4; //D5
 
 // The hall-effect flow sensor outputs approximately 4.5 pulses per second per
 // litre/minute of flow.
@@ -37,7 +37,7 @@ void setup()              // run once, when the sketch starts
   pinMode(statusLed, OUTPUT);
   digitalWrite(statusLed, HIGH);  // We have an active-low LED attached
   
-  pinMode(sensorPin, INPUT);
+  pinMode(sensorPin, INPUT_PULLUP);
   digitalWrite(sensorPin, HIGH);
 
   pulseCount        = 0;
@@ -45,11 +45,12 @@ void setup()              // run once, when the sketch starts
   flowMilliLitres   = 0;
   totalMilliLitres  = 0;
   oldTime           = 0;
+  pulseCount        = 0;
 
   // The Hall-effect sensor is connected to pin 2 which uses interrupt 0.
   // Configured to trigger on a FALLING state change (transition from HIGH
   // state to LOW state)
-  attachInterrupt(sensorInterrupt, pulseCounter, FALLING);
+  attachInterrupt(digitalPinToInterrupt(sensorInterrupt), pulseCounter, FALLING);
 }
 void loop()
 {
@@ -76,7 +77,7 @@ void loop()
     pulseCount = 0;
     
     // Enable the interrupt again now that we've finished sending output
-    attachInterrupt(sensorInterrupt, pulseCounter, FALLING);
+    attachInterrupt(digitalPinToInterrupt(sensorInterrupt), pulseCounter, FALLING);
   }
   if(Serial.available()){
    
@@ -106,7 +107,7 @@ void printTemperature(DeviceAddress deviceAddress)
   }
 }
 
-void pulseCounter()
+ICACHE_RAM_ATTR void pulseCounter()
 {
   // Increment the pulse counter
   pulseCount++;

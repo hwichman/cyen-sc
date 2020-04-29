@@ -107,10 +107,10 @@ class SensorPage(Page):
         self.labe7 = tk.Label(self, bg = "White", textvariable = self.num4)
         self.labe7.place(x=165, y = 225)
         
-        labe11 = tk.Label(self, bg = "White", textvariable = self.num5)
-        labe11.place(x=100, y = 250)
-        labe12 = tk.Label(self, bg = "White", textvariable = self.num6)
-        labe12.place(x=165, y = 250)
+        self.labe11 = tk.Label(self, bg = "White", textvariable = self.num5)
+        self.labe11.place(x=100, y = 250)
+        self.labe12 = tk.Label(self, bg = "White", textvariable = self.num6)
+        self.labe12.place(x=165, y = 250)
 
 
 
@@ -273,11 +273,6 @@ class MainView(tk.Frame):
         dataQueue = []
         self.master.after(1, self.refresh)
 
-def saveData():
-    f = open("saveData.txt","w")
-    f.write(str(monsterHealth)+'\n')
-    f.write(str(getLeaderboardString()))
-    f.close()
 
 #allows new connections to be made
 def acceptIncomingConnections():

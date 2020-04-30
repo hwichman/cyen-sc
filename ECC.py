@@ -1,6 +1,6 @@
 import hashlib
 import random
-from Cypto.Cipher import AES
+from Crypto.Cipher import AES
 
 def modDivisionOverAPrimeField(numerator, denominator, field):
     if (numerator > field):
@@ -18,8 +18,6 @@ class FiniteEllipticCurve():
         #Generate random large numbers a and b to define the elliptical curve
         self.a = random.randint(100, 600)
         self.b = random.randint(100, 600)
-        self.a = 3
-        self.b = 8
         #Generate random large Finite Prime Field
         self.fieldPrime = prime
     def getRandomPoint(self):
@@ -86,36 +84,45 @@ class Point():
 
 class Client():
     def __init__(self):
-        self.msg = "Hello World!"
-        privateSharedKeyInt = random.randint(0,90)
+        self.msg = "Hello World!    "
+        self.msg = self.msg.encode('utf-8')
+        privateSharedKeyInt = random.randint(0,999999)
         self.k = random.randint(0,90)
-    def encryptData(self, prime, Ep, P, Qa):
+    def encryptData(self, prime, Ep, P, Qa,iv):
         self.privateSharedKey = Ep.getRandomPoint()
-        self.privateSharedAESKey = hashlib.sha1(str(self.privateSharedKey.x).encode('utf-8')).hexdigest()
+        self.privateSharedAESKey = hashlib.md5(str(self.privateSharedKey.x).encode('utf-8')).digest()
         C1 = P.addToSelfNTimes(self.k, Ep.a, prime)
         C2 = self.privateSharedKey.add(Qa.addToSelfNTimes(self.k, Ep.a, prime), Ep.a, prime)
-        return C1, C2
+        aes = AES.new(self.privateSharedAESKey, AES.MODE_CBC, iv)
+        encryptedMsg = aes.encrypt(self.msg)
+        return C1, C2, encryptedMsg
         
 
 class Server():
     def __init__(self):
+        self.iv = '1234567890123456'.encode('utf-8')
         self.prime = 13
         self.Ep = FiniteEllipticCurve(self.prime)
         self.P = self.Ep.getRandomPoint()
-        self.private_key = random.randint(0,90)
+        self.private_key = random.randint(0,999999)
         self.Qa = self.P.addToSelfNTimes(self.private_key, self.Ep.a, self.prime)
     def sendPublicData(self):
-        return self.prime, self.Ep, self.P, self.Qa
-    def getSharedKey(self, C1, C2):
+        return self.prime, self.Ep, self.P, self.Qa, self.iv
+    def getSharedKey(self, C1, C2, encryptedMsg):
         privateSharedKey = C2.add(C1.addToSelfNTimes(self.private_key, self.Ep.a, self.prime).negate(), self.Ep.a, self.prime)
-        self.privateSharedAESKey = hashlib.sha1(str(privateSharedKey.x).encode('utf-8')).hexdigest()
-        return self.privateSharedAESKey
+        self.privateSharedAESKey = hashlib.md5(str(privateSharedKey.x).encode('utf-8')).digest()
+        aes = AES.new(self.privateSharedAESKey, AES.MODE_CBC, self.iv)
+        decryptedMsg = aes.decrypt(encryptedMsg)
+        return decryptedMsg
 
 client = Client()
 server = Server()
+# sends the primefield, the elliptic curve, a random point P on the curve, another random point on the curve obtained by adding adding p to itself a random number of times, and the initializaiton vector for AES
 serverPublicData = server.sendPublicData()
-clientEncryptedMessage = client.encryptData(serverPublicData[0], serverPublicData[1], serverPublicData[2], serverPublicData[3])
-serverSharedKey = server.getSharedKey(clientEncryptedMessage[0], clientEncryptedMessage[1])
-print (server.privateSharedAESKey)
-print (client.privateSharedAESKey)
+#client receives that data and calculates C1 and C2 with it, uses the shared secret key(not yet known by server) and the initialization vector and sent from the server to encrypt the original message, sends C1, C2, and the encrypted message to the server
+clientEncryptedMessage = client.encryptData(serverPublicData[0], serverPublicData[1], serverPublicData[2], serverPublicData[3], serverPublicData[4])
+#server recieves C1, C2, and the encrypted message, uses C1 and C2 to calculate the shared secret key, uses the shared secret key and initialization vector to decrypt the message (and any following messages)
+decryptedMsg = server.getSharedKey(clientEncryptedMessage[0], clientEncryptedMessage[1], clientEncryptedMessage[2])
+print (decryptedMsg)
+print (decryptedMsg.decode('utf-8'))
 

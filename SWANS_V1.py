@@ -8,7 +8,7 @@ import time
 import random
 import hashlib
 
-CLIENT1 = "192.168.0.18"
+
 
 dataQueue = []
 
@@ -303,6 +303,7 @@ def removeClient(client):
  
 #handles a single clients packets
 def handleClient(client):
+    #send(client)
     while True:
         try:
             data = client.recv(BUFSIZ)
@@ -311,11 +312,11 @@ def handleClient(client):
                 break
             else:
                 prop, propData = parseData(data)
-                if (prop == "Temperature"):
+                if (prop == "T"):
                     dataQueue.append("UpdateTemp:"+str(addresses[client][0])+":"+str(propData))
-                elif (prop == "Flowrate"):
+                elif (prop == "F"):
                     dataQueue.append("UpdateFR:"+str(addresses[client][0])+":"+str(propData))
-                elif (prop == "Pressure"):
+                elif (prop == "P"):
                     dataQueue.append("UpdatePr:"+str(addresses[client][0])+":"+str(propData))
                     
         except:
@@ -323,9 +324,9 @@ def handleClient(client):
             break
         #the raw string of data sent from the client
         datadecode = data.decode()
-            
         
-    
+def send(client, msg):
+    client.send(bytes(msg, "utf8")) 
         
 def parseData(data):
     prop = ""

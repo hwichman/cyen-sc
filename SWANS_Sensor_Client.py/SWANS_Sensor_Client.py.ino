@@ -8,8 +8,8 @@
 //#include <eccrypto.h>
 
 #ifndef STASSID
-#define STASSID "Verizon-SM-N950U-70FD"
-#define STAPSK  "cbjj893!"
+#define STASSID "TiliquaGigas"
+#define STAPSK  "Zorb@1983"
 #endif
 char junk;
 String inputString="";
@@ -31,7 +31,7 @@ DeviceAddress thermometer = { 0x28, 0x5A, 0x22, 0x5E, 0x1A, 0x19, 0x01, 0x69 };
 const char* ssid     = STASSID;
 const char* password = STAPSK;
 
-const char* host = "192.168.43.86";
+const char* host = "192.168.0.2";
 const uint16_t port = 23435;
 
 void setup() {
@@ -89,12 +89,11 @@ void loop() {
   while (client.connected()) {
     delay(3000);
     sensors.requestTemperatures();
-    client.print(getTemperature(thermometer));
-    client.print(getFlowrate());
-    Serial.println();
-    Serial.println(getPressure());
-    delay(500);
-    client.print("Pressure:1.1");
+    client.println(getTemperature(thermometer));
+    delay(1000);
+    client.println(getFlowrate());
+    delay(1000);
+    client.println(getPressure());
   }
 
   // wait for data to be available
@@ -130,14 +129,14 @@ String getTemperature(DeviceAddress deviceAddress)
  if (tempC == -127.00) {
     Serial.println();
     Serial.print("Error getting temperature");
-    return ("Temperature:N/A");
+    return ("T:N/A");
   } else {
     Serial.println();
     Serial.print("C: ");
     Serial.print(tempC);
     Serial.print(" F: ");
     Serial.print(DallasTemperature::toFahrenheit(tempC));
-    return ("Temperature:"+String(tempC));
+    return ("T:"+String(tempC));
   }
 }
 
@@ -157,7 +156,7 @@ String getFlowrate(){
       frac = (flowrate - int(flowrate)) * 10;
       //Serial.println();
       String flowrateString = "";
-      flowrateString = "Flowrate:"+String(int(flowrate))+"."+(frac, DEC);
+      flowrateString = "F:"+String(int(flowrate))+"."+(frac, DEC);
       attachInterrupt(digitalPinToInterrupt(flowrateSensorInterrupt), pulseCounter, FALLING);
       pulseCount = 0;
       return flowrateString;
@@ -171,5 +170,5 @@ String getPressure(){
     voltage = 30;
   }
   float pressurePSI = map(voltage, 30, 1023, 0, 1200000);
-  return String(pressurePSI);
+  return String("P:"+String(pressurePSI));
 }

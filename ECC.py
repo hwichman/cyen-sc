@@ -1,8 +1,33 @@
 import hashlib
 import random
+import math
 from Crypto.Cipher import AES
 
-def modDivisionOverAPrimeField(numerator, denominator, field):
+
+# Function to find modulo inverse of b. It returns  
+# -1 when inverse doesn't  
+# modInverse works for prime m 
+def modInverse(b,m): 
+    g = math.gcd(b, m)  
+    if (g != 1): 
+        # print("Inverse doesn't exist")  
+        return -1
+    else:  
+        # If b and m are relatively prime,  
+        # then modulo inverse is b^(m-2) mode m  
+        return pow(b, m - 2, m) 
+  
+  
+# Function to compute a/b under modulo m  
+def modDivisionOverAPrimeField(a,b,m): 
+    a = a % m 
+    inv = modInverse(b,m) 
+    if(inv == -1): 
+        print("Division not defined") 
+    else: 
+        return (inv*a) % m 
+
+def modDivisionOverAPrimeFieldTest(numerator, denominator, field):
     if (numerator > field):
         numerator = numerator % field
     if (denominator > field):
@@ -17,19 +42,24 @@ class FiniteEllipticCurve():
         self.n = random.randint(10000,99999)
         #Generate random large numbers a and b to define the elliptical curve
         self.a = random.randint(100, 600)
-        self.b = random.randint(100, 600)
+        self.b = random.randint(100, 600) ** 2
+        self.startingPoint = Point(0, self.b ** (1/2))
         #Generate random large Finite Prime Field
         self.fieldPrime = prime
     def getRandomPoint(self):
-        startingPoint = Point('inf','inf')
-        for x in range (0, self.fieldPrime):
-            y_square = x**3 + self.a*x + self.b
-            for y in range (0, self.fieldPrime):
-                if ((y**2) % self.fieldPrime == y_square % self.fieldPrime):
-                    startingPoint = Point(x, y)
-        randomPoint = startingPoint.addToSelfNTimes(random.randint(0,10), self.a, self.fieldPrime)
+        #startingPoint = Point('inf','inf')
+        #for x in range (0, self.fieldPrime):
+            #y_square = x**3 + self.a*x + self.b
+            #for y in range (0, self.fieldPrime):
+                #if ((y**2) % self.fieldPrime == y_square % self.fieldPrime):
+                    #startingPoint = Point(x, y)
+                    #break
+            #if (startingPoint.x != 'inf'):
+                #break
+        print ('here')
+        randomPoint = self.startingPoint.addToSelfNTimes(random.randint(0,10), self.a, self.fieldPrime)
         while (randomPoint.x == 'inf'):
-            randomPoint = randomPoint.add(startingPoint, self.a, self.fieldPrime)
+            randomPoint = randomPoint.add(self.startingPoint, self.a, self.fieldPrime)
         return randomPoint
         
             
@@ -80,6 +110,7 @@ class Point():
             #print ("q = "+"("+str(q.x)+","+str(q.y)+")")
             #print (n)
             n = int(n/2)
+            print (n)
         return r
 
 class Client():
@@ -101,10 +132,10 @@ class Client():
 class Server():
     def __init__(self):
         self.iv = '1234567890123456'.encode('utf-8')
-        self.prime = 13
+        self.prime = 67867967
         self.Ep = FiniteEllipticCurve(self.prime)
         self.P = self.Ep.getRandomPoint()
-        self.private_key = random.randint(0,999999)
+        self.private_key = random.randint(100000,999999)
         self.Qa = self.P.addToSelfNTimes(self.private_key, self.Ep.a, self.prime)
     def sendPublicData(self):
         return self.prime, self.Ep, self.P, self.Qa, self.iv

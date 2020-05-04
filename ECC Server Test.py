@@ -154,7 +154,6 @@ def handleClient(client):
     send(client, msgToClient)
     state = 0
     hashedKey = ""
-    aes = 0
     while True:
         #try:
         data = client.recv(BUFSIZ)

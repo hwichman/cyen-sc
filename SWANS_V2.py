@@ -140,8 +140,6 @@ class LoginFrame(Frame):
         username = self.entry_username.get()
         password = self.entry_password.get()
         hashedPass = hashlib.sha256(password.strip().encode("utf-8")).hexdigest()
-        print (hashedPass)
-        print (retrievedHash)
         if username == "Andrew" and hashedPass == retrievedHash:
             self.master.destroy()
             SERVER.listen(5)
@@ -336,7 +334,7 @@ class MainView(tk.Frame):
         self.container = tk.Frame(self)
         self.buttonframe.pack(side="top", fill="x", expand=False)
         self.container.pack(side="top", fill="both", expand=True)
-
+        
         self.refresh()
 
         for page in self.pageList:

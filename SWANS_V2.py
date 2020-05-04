@@ -7,6 +7,7 @@ from threading import Thread
 import time
 import random
 import hashlib
+from Crypto.Util import number
 import math
 
 # Function to find modulo inverse of b. It returns  
@@ -422,7 +423,7 @@ def send(client, msg):
 def handleClient(client):
     iv = '1234567890123456'.encode('utf-8')
     ## TODO SHOULD BE RANDOM
-    prime = 4409
+    prime = number.getPrime(14)
     Ep = FiniteEllipticCurve(prime)
     P = Ep.getRandomPoint()
     private_key = random.randint(0,99999)

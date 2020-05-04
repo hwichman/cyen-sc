@@ -29,10 +29,9 @@ def modInverse(b,m):
 def modDivisionOverAPrimeField(a,b,m): 
     a = a % m 
     inv = modInverse(b,m)
-    print (a)
-    print (inv)
     if(inv == -1):
-        print("Division not defined") 
+        print("Division not defined")
+        return -1
     else: 
         return (inv*a) % m 
 class FiniteEllipticCurve():
@@ -55,8 +54,6 @@ class FiniteEllipticCurve():
             if (startingPoint.x != 'inf'):
                 break
         randomPoint = startingPoint.addToSelfNTimes(random.randint(0,9999), self.a, self.fieldPrime)
-        print (randomPoint.x)
-        print (randomPoint.y)
         while (randomPoint.x == 'inf'):
             randomPoint = randomPoint.add(startingPoint, self.a, self.fieldPrime)
         return randomPoint
@@ -165,7 +162,7 @@ def handleClient(client):
             pass
             #removeClient(client)
             #break
-        elif (data.decode() == "Hello Server!"):
+        elif (data.decode() == "Hello Serer!"):
             print (data.decode());
             send(client, "Hello Client!")
         elif (state == 0):
@@ -182,16 +179,12 @@ def handleClient(client):
                     else:
                         C2 = Point(int(coordinates[2]),int(coordinates[3]))
                     privateSharedKey = C2.add(C1.addToSelfNTimes(private_key, Ep.a, prime).negate(), Ep.a, prime)
-                    print ("C1 = ("+str(C1.x)+", "+str(C1.y)+")")
-                    print ("C2 = ("+str(C2.x)+", "+str(C2.y)+")")
                     if (privateSharedKey.x != 'inf'):
                         while (privateSharedKey.x < 0):
                             privateSharedKey.x = (privateSharedKey.x + prime)%prime
-                    print ("PrivateSharedKey = "+str(privateSharedKey.x))
                     if (privateSharedKey.y != 'inf'):
                         while (privateSharedKey.y < 0):
                             privateSharedKey.y = (privateSharedKey.y + prime)%prime
-                    print ("PrivateSharedKey = "+str(privateSharedKey.y))
                     hashedKey = hashlib.md5(str(privateSharedKey.x).encode('utf-8')).digest()
                     #print ("Hashed Key = "+hashedKey)
                     aes = AES.new(hashedKey, AES.MODE_CBC, iv)

@@ -131,9 +131,18 @@ class LoginFrame(Frame):
 
     def _login_btn_clicked(self):
         global main
+        file1 = open("text.txt")
+        retrievedHash = ""
+        for line in file1:
+            retrievedHash += line
+            #print(decrypt)
+        retrievedHash = retrievedHash.strip()
         username = self.entry_username.get()
         password = self.entry_password.get()
-        if username == "" and password == "":
+        hashedPass = hashlib.sha256(password.strip().encode("utf-8")).hexdigest()
+        print (hashedPass)
+        print (retrievedHash)
+        if username == "Andrew" and hashedPass == retrievedHash:
             self.master.destroy()
             SERVER.listen(5)
             print("Waiting for connection...")

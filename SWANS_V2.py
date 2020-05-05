@@ -9,6 +9,8 @@ import random
 import hashlib
 from Crypto.Util import number
 import math
+from PIL import Image,ImageTk
+from notify_run import Notify
 
 # Function to find modulo inverse of b. It returns  
 # -1 when inverse doesn't  
@@ -110,10 +112,12 @@ dataQueue = []
 class LoginFrame(Frame):
     def __init__(self, master):
         super().__init__(master)
-
+        load = Image.open("SWANS(1).png")
+        render = ImageTk.PhotoImage(load)
         self.label_username = Label(self, text="Username")
         self.label_password = Label(self, text="Password")
-
+        self.label_image = Label(self, image = render)
+        self.label_image.Image = render
         self.entry_username = Entry(self)
         self.entry_password = Entry(self, show="*")
 
@@ -121,12 +125,13 @@ class LoginFrame(Frame):
         self.label_password.grid(row=1, sticky=E)
         self.entry_username.grid(row=0, column=1)
         self.entry_password.grid(row=1, column=1)
-
+        self.label_image.grid(columnspan = 4)
         #self.checkbox = Checkbutton(self, text="Keep me logged in")
         #self.checkbox.grid(columnspan=2)
 
         self.logbtn = Button(self, text="Login", command=self._login_btn_clicked)
         self.logbtn.grid(columnspan=2)
+
 
         self.pack()
 
@@ -177,14 +182,14 @@ class SensorPage(Page):
         self.title_label = title_label
         labe0 = tk.Label(self, bg = "White", text = self.title_label)
         labe0.pack(side = "top")
-        self.labe1 = tk.Label(self, bg = "green", textvariable = self.temperatureText)
-        self.labe8 = tk.Label(self, bg = "green", textvariable = self.flowrateText)
-        self.labe9 = tk.Label(self, bg = "green", textvariable = self.pressureText)
+        self.labe1 = tk.Label(self, bg = "White", textvariable = self.temperatureText)
+        self.labe8 = tk.Label(self, bg = "White", textvariable = self.flowrateText)
+        self.labe9 = tk.Label(self, bg = "White", textvariable = self.pressureText)
         
         lbl1 = tk.Label(self, text='LO Param.')
         lbl2 = tk.Label(self, text='HI Param.')
-        lbl1.place(x=100, y=50)
-        lbl2.place(x=165, y=50)
+        lbl1.place(x=130, y=50)
+        lbl2.place(x=220, y=50)
 
         self.num1 = StringVar()
         self.num2 = StringVar()
@@ -200,19 +205,19 @@ class SensorPage(Page):
         self.num6.set("Not Set")
         
         self.labe4 = tk.Label(self, bg = "White", textvariable = self.num1)
-        self.labe4.place(x=100, y = 200)
+        self.labe4.place(x=130, y = 200)
         self.labe5 = tk.Label(self, bg = "White", textvariable = self.num2)
-        self.labe5.place(x= 165, y = 200)
+        self.labe5.place(x= 220, y = 200)
         
         self.labe6 = tk.Label(self, bg = "White", textvariable = self.num3)
-        self.labe6.place(x=100, y = 225)
+        self.labe6.place(x=130, y = 225)
         self.labe7 = tk.Label(self, bg = "White", textvariable = self.num4)
-        self.labe7.place(x=165, y = 225)
+        self.labe7.place(x=220, y = 225)
         
         self.labe11 = tk.Label(self, bg = "White", textvariable = self.num5)
-        self.labe11.place(x=100, y = 250)
+        self.labe11.place(x=130, y = 250)
         self.labe12 = tk.Label(self, bg = "White", textvariable = self.num6)
-        self.labe12.place(x=165, y = 250)
+        self.labe12.place(x=220, y = 250)
 
 
 
@@ -221,8 +226,8 @@ class SensorPage(Page):
         labe2.place(x=10, y = 75)
         self.t1 = Entry(self, width = 10)
         self.t2 = Entry(self, width = 10)
-        self.t1.place(x=100, y=75)
-        self.t2.place(x=165, y=75)
+        self.t1.place(x=130, y=75)
+        self.t2.place(x=220, y=75)
         #self.labe1.place(x=230, y=75)
 
         #Flow rate Sensor Entry
@@ -230,8 +235,8 @@ class SensorPage(Page):
         labe3.place(x=10, y = 100)
         self.t3 = Entry(self, width = 10)
         self.t4 = Entry(self, width = 10)
-        self.t3.place(x=100, y=100)
-        self.t4.place(x=165, y=100)
+        self.t3.place(x=130, y=100)
+        self.t4.place(x=220, y=100)
         #labe8.place(x=230, y = 100)
 
         #Pressure Sensor Entry
@@ -239,33 +244,33 @@ class SensorPage(Page):
         labe10.place(x=10, y = 125)
         self.t5 = Entry(self, width = 10)
         self.t6 = Entry(self, width = 10)
-        self.t5.place(x=100, y=125)
-        self.t6.place(x=165, y=125)
+        self.t5.place(x=130, y=125)
+        self.t6.place(x=220, y=125)
         #labe9.place(x=230, y = 125)
 
         #Button Code
         b1 = Button(self, text='Store', command=self.store)
-        b1.place(x=270, y=100)
+        b1.place(x=330, y=100)
 
 
         lbl3 = tk.Label(self, text='Stored Values')
-        lbl3.place(x=140, y=160)
+        lbl3.place(x=130, y=160)
         lbl3 = tk.Label(self, text='Current')
-        lbl3.place(x=230, y=175)
+        lbl3.place(x=290, y=175)
         #Temperature Stored Values
         labe2 = tk.Label(self, bg = "White", text = "Temperature")
         labe2.place(x=10, y = 200)
-        self.labe1.place(x=230, y=200)
+        self.labe1.place(x=290, y=200)
         
         #Flowrate Stored Values
         labe2 = tk.Label(self, bg = "White", text = "Flow Rate")
         labe2.place(x=10, y = 225)
-        self.labe8.place(x=230, y=225)
+        self.labe8.place(x=290, y=225)
         
         #Pressure Stored Values
         labe2 = tk.Label(self, bg = "White", text = "Pressure")
         labe2.place(x=10, y = 250)
-        self.labe9.place(x=230, y=250)
+        self.labe9.place(x=290, y=250)
         
         
     def store(self):
@@ -293,37 +298,55 @@ class SensorPage(Page):
 
     def updateFlowRate(self, value):
         #print ("updating "+self.title_label+"'s Flowrate to "+str(value))
-        self.flowrateText.set(str(value))
+        smallValue = self.labe6["text"].strip("L/min")
+        largeValue = self.labe7["text"].strip("L/min")
+        self.flowrateText.set(str(value).strip()+"L/min")
         if (self.labe6["text"] != "Not Set" and self.labe7["text"] != "Not Set"):
-            delta = 0.05*(float(self.labe7["text"]) - float(self.labe6["text"]))
-            if (float(value) > float(self.labe7["text"]) or float(value) < float(self.labe6["text"])):
+            delta = 0.05*(float(largeValue) - float(smallValue))
+            if (float(value) > float(largeValue) or float(value) < float(smallValue)):
                 self.labe8.config(bg="Red")
-            elif (float(value) > (float(self.labe7["text"]) - delta) or float(value) < (float(self.labe6["text"]) + delta)):
+                notify = Notify()
+                notify.send("Warning! The flow rate is outside of the Parameters. Fix immediately.")
+            elif (float(value) > (float(largeValue) - delta) or float(value) < (float(smallValue) + delta)):
                 self.labe8.config(bg="Yellow")
             else:
                 self.labe8.config(bg="Green")
+        else:
+            self.labe8.config(bg="White")
     def updateTemp(self, value):
-        self.temperatureText.set(str(value))
+        smallValue = self.labe4["text"].strip('C')
+        largeValue = self.labe5["text"].strip('C')
+        self.temperatureText.set(str(value).strip()+'C')
         if (self.labe4["text"] != "Not Set" and self.labe5["text"] != "Not Set"):
-            delta = 0.05*(float(self.labe5["text"]) - float(self.labe4["text"]))
-            if (float(value) > float(self.labe5["text"]) or float(value) < float(self.labe4["text"])):
+            delta = 0.05*(float(largeValue) - float(smallValue))
+            if (float(value) > float(largeValue) or float(value) < float(smallValue)):
                 self.labe1.config(bg="Red")
-            elif (float(value) > (float(self.labe5["text"]) - delta) or float(value) < (float(self.labe4["text"]) + delta)):
+                notify = Notify()
+                notify.send("Warning! The temperature is outside of the Parameters. Fix immediately.")
+            elif (float(value) > (float(largeValue) - delta) or float(value) < (float(smallValue) + delta)):
                 self.labe1.config(bg="Yellow")
             else:
                 self.labe1.config(bg="Green")
+        else:
+            self.labe1.config(bg="White")
         #print ("updating "+self.title_label+"'s Temperature to "+str(value))
     def updatePressure(self, value):
         #print ("updating "+self.title_label+"'s Pressure to "+str(value))
-        self.pressureText.set(str(value))
+        smallValue = self.labe11["text"].strip('psi')
+        largeValue = self.labe12["text"].strip('psi')
+        self.pressureText.set(str(value).strip()+"psi")
         if (self.labe11["text"] != "Not Set" and self.labe12["text"] != "Not Set"):
-            delta = 0.05*(float(self.labe12["text"]) - float(self.labe11["text"]))
-            if (float(value) > float(self.labe12["text"]) or float(value) < float(self.labe11["text"])):
+            delta = 0.05*(float(largeValue) - float(smallValue))
+            if (float(value) > float(largeValue) or float(value) < float(smallValue)):
                 self.labe9.config(bg="Red")
-            elif (float(value) > (float(self.labe12["text"]) - delta) or float(value) < (float(self.labe11["text"]) + delta)):
+                notify = Notify()
+                notify.send("Warning! The pressure is outside of the Parameters. Fix immediately.")
+            elif (float(value) > (float(largeValue) - delta) or float(value) < (float(smallValue) + delta)):
                 self.labe9.config(bg="Yellow")
             else:
                 self.labe9.config(bg="Green")
+        else:
+            self.labe9.config(bg="White")
         
 
         
@@ -411,7 +434,10 @@ def getData(line):
 
 #removes the client from the server, note that this does not remove the teams score
 def removeClient(client):
-    print("%s:%s has left." % addresses[client])
+    try:
+        print("%s:%s has left." % addresses[client])
+    except (ValueError):
+        pass
     clients.remove(client)
     del addresses[client]
     client.close()
@@ -427,7 +453,10 @@ def handleClient(client):
     Ep = FiniteEllipticCurve(prime)
     P = Ep.getRandomPoint()
     private_key = random.randint(0,99999)
-    print ("private_key = "+str(private_key))
+    try:
+        print ("private_key = "+str(private_key))
+    except (ValueError):
+        pass
     Qa = P.addToSelfNTimes(private_key, Ep.a, prime)
     msgToClient = ('[ECC0]'+str(iv)+','+str(prime)+','+str(Ep.a)+','+str(Ep.b)+','+str(P.x)+','+str(P.y)+','+str(Qa.x)+','+str(Qa.y))
     send(client, msgToClient)
@@ -454,36 +483,48 @@ def handleClient(client):
                     else:
                         C2 = Point(int(coordinates[2]),int(coordinates[3]))
                     privateSharedKey = C2.add(C1.addToSelfNTimes(private_key, Ep.a, prime).negate(), Ep.a, prime)
-                    print ("C1 = ("+str(C1.x)+", "+str(C1.y)+")")
-                    print ("C2 = ("+str(C2.x)+", "+str(C2.y)+")")
-                    print ("Calculating client's shared key using my private key = "+str(private_key)+", C1 and C2...")
+                    try:
+                        print ("C1 = ("+str(C1.x)+", "+str(C1.y)+")")
+                        print ("C2 = ("+str(C2.x)+", "+str(C2.y)+")")
+                        print ("Calculating client's shared key using my private key = "+str(private_key)+", C1 and C2...")
+                    except:
+                        pass
                     if (privateSharedKey.x != 'inf'):
                         while (privateSharedKey.x < 0):
                             privateSharedKey.x = (privateSharedKey.x + prime)%prime
                     if (privateSharedKey.y != 'inf'):
                         while (privateSharedKey.y < 0):
                             privateSharedKey.y = (privateSharedKey.y + prime)%prime
-                    print ("Client's random point is ("+str(privateSharedKey.x)+", "+str(privateSharedKey.y)+")")
+                    try:
+                        print ("Client's random point is ("+str(privateSharedKey.x)+", "+str(privateSharedKey.y)+")")
+                    except (ValueError):
+                        pass
                     hashedKey = hashlib.md5(str(privateSharedKey.x).encode('utf-8')).digest()
-                    print ("The shared key is "+hashlib.md5(str(privateSharedKey.x).encode('utf-8')).hexdigest())
+                    try:
+                        print ("The shared key is "+hashlib.md5(str(privateSharedKey.x).encode('utf-8')).hexdigest())
+                    except (ValueError):
+                        pass
                     state+=1
         else:
             encryptedData = bytes.fromhex((data.decode()))
-            print ("Decrypting client's data using shared key ="+hashlib.md5(str(privateSharedKey.x).encode('utf-8')).hexdigest())
+            try:
+                print ("Decrypting client's data using shared key ="+hashlib.md5(str(privateSharedKey.x).encode('utf-8')).hexdigest())
+            except (ValueError):
+                pass
             decryptedData = [ chr((a) ^ (b)) for (a,b) in zip(encryptedData, hashedKey)]
             decryptedDataString = "".join(decryptedData)
-            print (decryptedDataString)
-            instructionQueue = getData(decryptedDataString);
+            try:
+                print (decryptedDataString)
+            except (ValueError):
+                pass
+            instructionQueue = getData(decryptedDataString)
             for element in instructionQueue:
                 if (element[0] == "[T]"):
-                    dataQueue.append("UpdateTemp:"+str(addresses[client][0])+":"+str(element[1]))
+                    dataQueue.append(("UpdateTemp:"+str(addresses[client][0])+":"+str(element[1])).strip('\x00'))
                 elif (element[0] == "[F]"):
-                    dataQueue.append("UpdateFR:"+str(addresses[client][0])+":"+str(element[1]))
+                    dataQueue.append(("UpdateFR:"+str(addresses[client][0])+":"+str(element[1])).strip('\x00'))
                 elif (element[0] == "[P]"):
-                    dataQueue.append("UpdatePr:"+str(addresses[client][0])+":"+str(element[1]))
-                    
-def send(client, msg):
-    client.send(bytes(msg, "utf8")) 
+                    dataQueue.append(("UpdatePr:"+str(addresses[client][0])+":"+str(element[1])).strip('\x00'))
         
 def parseData(data):
     prop = ""
@@ -514,5 +555,5 @@ SERVER.bind(ADDR)
 #main function
 root = Tk()
 lf = LoginFrame(root)
-#root.mainloop()
+root.mainloop()
 

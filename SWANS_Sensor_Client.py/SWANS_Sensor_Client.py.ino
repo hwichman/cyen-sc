@@ -9,8 +9,8 @@
 
 
 #ifndef STASSID
-#define STASSID "TiliquaGigas"
-#define STAPSK  "Zorb@1983"
+#define STASSID "iPhone"
+#define STAPSK  "Baseball21"
 #endif
 
 #include <string.h>
@@ -454,8 +454,8 @@ OneWire oneWire(4); //D2 on NodeMCU
 DallasTemperature sensors(&oneWire);
 byte pressureSensorAnalogPin = A0;
 int state = 0;
-byte flowrateSensorInterrupt = 14; //D3 on NodeMCU
-byte flowrateSensorPin = 14; //D1 on NodeMCU
+byte flowrateSensorInterrupt = 14; //D5 on NodeMCU
+byte flowrateSensorPin = 14; //D5 on NodeMCU
 float calibration = 4.5;
 volatile byte pulseCount;
 float flowrate;
@@ -465,11 +465,12 @@ unsigned long oldTime;
 MD5Builder md5;
 
 DeviceAddress thermometer = { 0x28, 0x5A, 0x22, 0x5E, 0x1A, 0x19, 0x01, 0x69 };
+//DeviceAddress thermometer = { 0x28, 0xA4, 0x23, 0x66, 0x1A, 0x19, 0x01, 0x91 };
 
 const char* ssid     = STASSID;
 const char* password = STAPSK;
 
-const char* host = "192.168.0.4";
+const char* host = "172.20.10.8";
 const uint16_t port = 23435;
 Point privateSharedKey;
 void setup() {

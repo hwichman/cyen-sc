@@ -9,8 +9,8 @@
 
 
 #ifndef STASSID
-#define STASSID "iPhone"
-#define STAPSK  "Baseball21"
+#define STASSID "TiliquaGigas"
+#define STAPSK  "Zorb@1983"
 #endif
 
 #include <string.h>
@@ -464,13 +464,13 @@ unsigned long totalMilliLitres;
 unsigned long oldTime;
 MD5Builder md5;
 
-DeviceAddress thermometer = { 0x28, 0x5A, 0x22, 0x5E, 0x1A, 0x19, 0x01, 0x69 };
-//DeviceAddress thermometer = { 0x28, 0xA4, 0x23, 0x66, 0x1A, 0x19, 0x01, 0x91 };
+//DeviceAddress thermometer = { 0x28, 0x5A, 0x22, 0x5E, 0x1A, 0x19, 0x01, 0x69 }; // LEFT SIDE
+DeviceAddress thermometer = { 0x28, 0xA4, 0x23, 0x66, 0x1A, 0x19, 0x01, 0x91 }; //RIGHT SIDE
 
 const char* ssid     = STASSID;
 const char* password = STAPSK;
 
-const char* host = "172.20.10.8";
+const char* host = "192.168.0.4";
 const uint16_t port = 23435;
 Point privateSharedKey;
 void setup() {
@@ -554,7 +554,7 @@ void loop() {
       String msg = "Hello Server!  ";
       md5.getBytes(md5Buffer);
       uint8_t enc_message [16];
-      delay(3000);
+      delay(250);
       sensors.requestTemperatures();
       msg = (getTemperature(thermometer));
       msg.getBytes(msgBuffer, 16);
@@ -563,14 +563,14 @@ void loop() {
             enc_message[i] = md5Buffer[i]^msgBuffer[i];
       }
       client.println(convertToByteString(enc_message, 16));
-      delay(1000);
+      delay(250);
       msg = (getFlowrate());
       msg.getBytes(msgBuffer, 16);
       for (int i = 0; i < 16; i++){
             enc_message[i] = md5Buffer[i]^msgBuffer[i];
       }
       client.println(convertToByteString(enc_message, 16));
-      delay(1000);
+      delay(250);
       msg = (getPressure());
       msg.getBytes(msgBuffer, 16);
       for (int i = 0; i < 16; i++){
@@ -623,19 +623,25 @@ String getFlowrate(){
       frac = (flowrate - int(flowrate)) * 10;
       //Serial.println();
       String flowrateString = "";
-      flowrateString = "[F]"+String(int(flowrate))+"."+(frac, DEC);
+      flowrateString = "[F]"+String(int(flowrate))+"."+String(frac);
       attachInterrupt(digitalPinToInterrupt(flowrateSensorInterrupt), pulseCounter, FALLING);
       pulseCount = 0;
       return pad(flowrateString);
   }
 }
 
+float save = 0.0;
 String getPressure(){
   float voltage = analogRead(pressureSensorAnalogPin);
-  //Serial.println("voltage:"+String(voltage));
-  if (voltage < 30){
-    voltage = 30;
+  //if (voltage < 20){
+    //voltage = save;
+  //}
+  //else{
+   // save = voltage;
+  //}
+  float pressurePSI = (3.3*voltage)/1023.0;
+  if (voltage == 0){
+    return pad("[P]N/A");
   }
-  float pressurePSI = map(voltage, 30, 1023, 0, 1200000);
   return pad("[P]"+String(pressurePSI));
 }

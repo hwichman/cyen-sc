@@ -416,7 +416,10 @@ def acceptIncomingConnections():
         clients.append(client)
         dataQueue.append("NewClient:"+str(clientAddress[0]))
         #send the current time data to the client
-        print("%s:%s has connected." % clientAddress)
+        try:
+            print("%s:%s has connected." % clientAddress)
+        except (ValueError):
+            pass
         Thread(target=handleClient, args=(client,)).start()
 
 def getData(line):
@@ -448,7 +451,6 @@ def send(client, msg):
 #handles a single clients packets
 def handleClient(client):
     iv = '1234567890123456'.encode('utf-8')
-    ## TODO SHOULD BE RANDOM
     prime = number.getPrime(14)
     Ep = FiniteEllipticCurve(prime)
     P = Ep.getRandomPoint()
@@ -472,7 +474,10 @@ def handleClient(client):
             instructionQueue = getData(data.decode())
             for element in instructionQueue:
                 if (element[0] == "[C1-2]"):
-                    print ("Receiving C1 and C2 from client")
+                    try:
+                        print ("Receiving C1 and C2 from client")
+                    except (ValueError):
+                        pass
                     coordinates = element[1].split(",")
                     if (coordinates[0] == "-1"):
                         C1 = Point ('inf', 'inf')

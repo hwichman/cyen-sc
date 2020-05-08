@@ -17,9 +17,9 @@ These parameteres will be divided into 3 categories:
 After having successfully received the data on the App, the user will be able to see data in real time and monitor different properties at once. If there are any errors the user will receive constant notification every 10 seconds until is fixed. 
 
  
-Team Members:
-Haley Wichman, Team Leader
-Andrew Theodos
-Paul De Soler
-Zachary Guillot
-Alexandra Duran Chicas 
+Team Members:  
+Haley Wichman, Team Leader  
+Andrew Theodos  
+Paul De Soler  
+Zachary Guillot  
+Alexandra Duran Chicas   

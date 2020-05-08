@@ -8,7 +8,7 @@ The purpose of the project is to monitor some sort of chemmical in a reservoir, 
 
 SWANS uses Elliptic Curve Cryptography along with the Elgamal Public Key Cryptosystem to get a symmetric key between the client and server, upon which it uses the XOR cipher for encrypting and decrypting further messages.
 
-On the App, the user will be able to specify parameteres depending on the chemical's properties. 
+On the App, the user is require to add a username and a password which in this case is adminpass. On the App, the user is able to specify parameteres depending on the chemical's properties. 
 These parameteres will be divided into 3 categories:
 1. Green -- data is within the parameters
 2. Yellow -- data is close to surpassing the paramters
